@@ -10,6 +10,37 @@
     <link href="{{ asset('css/PaginaPrincipal.css') }}" rel="stylesheet">
 </head>
 <body>
+    <!-- Alertas de sesión -->
+    @if(session('success'))
+    <div class="alert-container">
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            <i class="fas fa-check-circle me-2"></i>
+            {{ session('success') }}
+            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="alert"></button>
+        </div>
+    </div>
+    @endif
+
+    @if(session('error'))
+    <div class="alert-container">
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+            <i class="fas fa-exclamation-triangle me-2"></i>
+            {{ session('error') }}
+            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="alert"></button>
+        </div>
+    </div>
+    @endif
+
+    @if(session('info'))
+    <div class="alert-container">
+        <div class="alert alert-info alert-dismissible fade show" role="alert">
+            <i class="fas fa-info-circle me-2"></i>
+            {{ session('info') }}
+            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="alert"></button>
+        </div>
+    </div>
+    @endif
+
     <!-- Encabezado -->
     <nav class="navbar navbar-expand-lg navbar-light">
         <div class="container">
@@ -24,11 +55,36 @@
                 </div>
             </a>
             
-            <!-- Botón de iniciar sesión -->
+            <!-- Botones de navegación -->
             <div class="navbar-nav ms-auto">
-                <a href="{{ url('/login') }}" class="btn btn-sena">
-                    <i class="fas fa-sign-in-alt me-2"></i>Iniciar Sesión
-                </a>
+                @auth
+                    <div class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle text-white" href="#" role="button" data-bs-toggle="dropdown">
+                            <i class="fas fa-user me-2"></i>{{ Auth::user()->nombres }}
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="{{ route('dashboard') }}">
+                                <i class="fas fa-tachometer-alt me-2"></i>Dashboard
+                            </a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li>
+                                <form method="POST" action="{{ route('logout') }}">
+                                    @csrf
+                                    <button type="submit" class="dropdown-item">
+                                        <i class="fas fa-sign-out-alt me-2"></i>Cerrar Sesión
+                                    </button>
+                                </form>
+                            </li>
+                        </ul>
+                    </div>
+                @else
+                    <a href="{{ url('/login') }}" class="btn btn-sena me-2">
+                        <i class="fas fa-sign-in-alt me-2"></i>Iniciar Sesión
+                    </a>
+                    <a href="{{ route('register') }}" class="btn btn-hero-register">
+                        <i class="fas fa-user-plus me-2"></i>Registrarse
+                    </a>
+                @endauth
             </div>
         </div>
     </nav>
@@ -50,9 +106,18 @@
                             <a href="#saberes" class="btn btn-hero-primary">
                                 <i class="fas fa-book me-2"></i>Conoce Más
                             </a>
-                            <a href="{{ url('/login') }}" class="btn btn-hero-secondary">
-                                <i class="fas fa-id-card me-2"></i>Acceder a Mi Carnet
-                            </a>
+                            @auth
+                                <a href="{{ route('dashboard') }}" class="btn btn-hero-secondary">
+                                    <i class="fas fa-id-card me-2"></i>Mi Carnet Digital
+                                </a>
+                            @else
+                                <a href="{{ url('/login') }}" class="btn btn-hero-secondary">
+                                    <i class="fas fa-id-card me-2"></i>Acceder a Mi Carnet
+                                </a>
+                                <a href="{{ route('register') }}" class="btn btn-hero-register">
+                                    <i class="fas fa-user-plus me-2"></i>Registrarse
+                                </a>
+                            @endauth
                         </div>
                     </div>
                 </div>
@@ -144,6 +209,8 @@
                                 <li><i class="fas fa-check-circle"></i> Agilizar procesos de acceso y control</li>
                                 <li><i class="fas fa-check-circle"></i> Implementar tecnología de punta accesible</li>
                                 <li><i class="fas fa-check-circle"></i> Reducir costos de impresión y reposición</li>
+                                <li><i class="fas fa-check-circle"></i> Mejorar la seguridad institucional</li>
+                                <li><i class="fas fa-check-circle"></i> Facilitar el registro de equipos personales</li>
                             </ul>
                         </div>
                         <div class="col-md-6">
@@ -154,6 +221,7 @@
                                     <li class="mb-3"><i class="fas fa-arrow-right me-2"></i> Reducción de tiempos en controles de acceso</li>
                                     <li class="mb-3"><i class="fas fa-arrow-right me-2"></i> Mayor seguridad con sistemas biométricos</li>
                                     <li class="mb-3"><i class="fas fa-arrow-right me-2"></i> Registro digital de equipos y pertenencias</li>
+                                    <li class="mb-3"><i class="fas fa-arrow-right me-2"></i> Control de asistencia automatizado</li>
                                     <li><i class="fas fa-arrow-right me-2"></i> Sistema escalable para todos los centros SENA</li>
                                 </ul>
                             </div>
@@ -174,25 +242,25 @@
                 <div class="tech-item fade-in-up">
                     <i class="fab fa-laravel tech-icon text-danger"></i>
                     <h5>Laravel Framework</h5>
-                    <p class="text-muted">Backend robusto y seguro</p>
+                    <p class="text-muted">Backend robusto y seguro con autenticación avanzada</p>
                 </div>
                 
                 <div class="tech-item fade-in-up">
                     <i class="fab fa-bootstrap tech-icon text-primary"></i>
                     <h5>Bootstrap 5</h5>
-                    <p class="text-muted">Diseño responsive y moderno</p>
+                    <p class="text-muted">Diseño responsive y moderno para todos los dispositivos</p>
                 </div>
                 
                 <div class="tech-item fade-in-up">
                     <i class="fas fa-database tech-icon text-info"></i>
                     <h5>MySQL/phpMyAdmin</h5>
-                    <p class="text-muted">Gestión eficiente de base de datos</p>
+                    <p class="text-muted">Gestión eficiente y segura de base de datos</p>
                 </div>
                 
                 <div class="tech-item fade-in-up">
                     <i class="fas fa-shield-alt tech-icon text-warning"></i>
                     <h5>Seguridad Integrada</h5>
-                    <p class="text-muted">Protección avanzada de datos</p>
+                    <p class="text-muted">Protección avanzada de datos y autenticación multifactor</p>
                 </div>
             </div>
             
@@ -204,19 +272,76 @@
                         <p>
                             Desarrollo iterativo e incremental con sprints definidos, 
                             permitiendo adaptación constante a los requerimientos del proyecto 
-                            y entrega continua de valor.
+                            y entrega continua de valor. Gestión eficiente del tiempo y recursos.
                         </p>
                     </div>
                 </div>
                 <div class="col-md-6 fade-in-up">
                     <div class="tech-card">
                         <i class="fas fa-id-card"></i>
-                        <h4>Uso del Carnet Digital</h4>
+                        <h4>Carnet Digital Inteligente</h4>
                         <p>
-                            Acceso mediante código de barras único o huella dactilar, 
-                            registro de equipos personales y control de accesos en tiempo real 
-                            con total seguridad y eficiencia.
+                            Acceso mediante código de barras único, huella dactilar o QR. 
+                            Registro de equipos personales, control de accesos en tiempo real 
+                            y seguimiento de actividades con total seguridad y eficiencia.
                         </p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Nueva sección de características -->
+            <div class="row mt-5">
+                <div class="col-12">
+                    <div class="card card-custom">
+                        <div class="card-body text-center">
+                            <h3 class="card-title-custom mb-4">Características Principales</h3>
+                            <div class="row">
+                                <div class="col-md-4 mb-3">
+                                    <i class="fas fa-fingerprint fa-2x text-success mb-2"></i>
+                                    <h5>Autenticación Biométrica</h5>
+                                    <p class="text-muted">Acceso seguro con huella digital</p>
+                                </div>
+                                <div class="col-md-4 mb-3">
+                                    <i class="fas fa-qrcode fa-2x text-info mb-2"></i>
+                                    <h5>Códigos QR Dinámicos</h5>
+                                    <p class="text-muted">Escaneo rápido y seguro</p>
+                                </div>
+                                <div class="col-md-4 mb-3">
+                                    <i class="fas fa-mobile-alt fa-2x text-warning mb-2"></i>
+                                    <h5>Acceso Móvil</h5>
+                                    <p class="text-muted">Disponible en cualquier dispositivo</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Sección de Registro (Call to Action) -->
+    <section class="hero-section" style="padding: 80px 0;">
+        <div class="container">
+            <div class="row text-center">
+                <div class="col-12">
+                    <h2 class="hero-title mb-4">¿Listo para unirte a IDENTITY?</h2>
+                    <p class="hero-subtitle mb-5">
+                        Regístrate ahora y forma parte de la transformación digital del SENA. 
+                        Obtén tu carnet digital y disfruta de todos los beneficios.
+                    </p>
+                    <div class="hero-buttons justify-content-center">
+                        @auth
+                            <a href="{{ route('dashboard') }}" class="btn btn-hero-primary btn-lg">
+                                <i class="fas fa-tachometer-alt me-2"></i>Ir al Dashboard
+                            </a>
+                        @else
+                            <a href="{{ route('register') }}" class="btn btn-hero-primary btn-lg">
+                                <i class="fas fa-user-plus me-2"></i>Registrarse Ahora
+                            </a>
+                            <a href="{{ route('login') }}" class="btn btn-hero-secondary btn-lg">
+                                <i class="fas fa-sign-in-alt me-2"></i>Iniciar Sesión
+                            </a>
+                        @endauth
                     </div>
                 </div>
             </div>
@@ -304,6 +429,29 @@
             
             fadeElements.forEach(element => {
                 observer.observe(element);
+            });
+
+            // Auto-ocultar alertas después de 5 segundos
+            const alerts = document.querySelectorAll('.alert');
+            alerts.forEach(alert => {
+                setTimeout(() => {
+                    const bsAlert = new bootstrap.Alert(alert);
+                    bsAlert.close();
+                }, 5000);
+            });
+
+            // Smooth scroll para enlaces internos
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    const target = document.querySelector(this.getAttribute('href'));
+                    if (target) {
+                        target.scrollIntoView({
+                            behavior: 'smooth',
+                            block: 'start'
+                        });
+                    }
+                });
             });
         });
     </script>

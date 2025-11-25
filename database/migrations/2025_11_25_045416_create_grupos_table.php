@@ -6,21 +6,19 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-    /**
-     * Run the migrations.
-     */
-    public function up(): void
+    public function up()
     {
         Schema::create('grupos', function (Blueprint $table) {
             $table->id();
+            $table->string('nombre', 50);
+            $table->string('codigo', 30)->unique();
+            $table->foreignId('programa_id')->constrained('programas');
+            $table->enum('jornada', ['mañana', 'tarde', 'noche', 'mixta'])->default('mixta');
             $table->timestamps();
         });
     }
 
-    /**
-     * Reverse the migrations.
-     */
-    public function down(): void
+    public function down()
     {
         Schema::dropIfExists('grupos');
     }

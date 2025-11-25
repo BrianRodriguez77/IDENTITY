@@ -6,22 +6,21 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-    /**
-     * Run the migrations.
-     */
-    public function up(): void
+    public function up()
     {
-        Schema::create('programas_tabe', function (Blueprint $table) {
+        Schema::create('programas', function (Blueprint $table) {
             $table->id();
+            $table->string('nombre', 200);
+            $table->string('codigo', 50)->unique();
+            $table->integer('duracion_meses')->nullable();
+            $table->string('nivel_formacion', 50)->nullable();
+            $table->enum('estado', ['activo', 'inactivo'])->default('activo');
             $table->timestamps();
         });
     }
 
-    /**
-     * Reverse the migrations.
-     */
-    public function down(): void
+    public function down()
     {
-        Schema::dropIfExists('programas_tabe');
+        Schema::dropIfExists('programas');
     }
 };

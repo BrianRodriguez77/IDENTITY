@@ -1,4 +1,3 @@
-/* PaginaPrincipal.css - Estilos para IDENTITY SENA */
 :root {
     --verde-sena: #2E8B57;
     --verde-claro: #3CB371;
@@ -183,6 +182,28 @@ body {
     background-color: white;
     color: var(--verde-sena);
     transform: translateY(-3px);
+}
+
+.btn-hero-register {
+    background-color: var(--dorado);
+    color: var(--verde-oscuro);
+    border: none;
+    padding: 15px 30px;
+    font-weight: 600;
+    border-radius: 50px;
+    transition: all 0.3s ease;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    box-shadow: var(--sombra-media);
+}
+
+.btn-hero-register:hover {
+    background-color: #ffed4e;
+    color: var(--verde-oscuro);
+    transform: translateY(-3px);
+    box-shadow: 0 12px 30px rgba(0,0,0,0.2);
 }
 
 .hero-image-container {
@@ -485,6 +506,55 @@ body {
     opacity: 0.9;
 }
 
+/* Alertas y mensajes */
+.alert-container {
+    position: fixed;
+    top: 100px;
+    right: 20px;
+    z-index: 9999;
+    max-width: 400px;
+}
+
+.alert {
+    border: none;
+    border-radius: 10px;
+    box-shadow: var(--sombra-media);
+    padding: 1rem 1.5rem;
+    margin-bottom: 1rem;
+    animation: slideInRight 0.3s ease-out;
+}
+
+.alert-success {
+    background: linear-gradient(135deg, var(--verde-sena), var(--verde-oscuro));
+    color: white;
+}
+
+.alert-info {
+    background: linear-gradient(135deg, #17a2b8, #138496);
+    color: white;
+}
+
+.alert-warning {
+    background: linear-gradient(135deg, #ffc107, #e0a800);
+    color: #212529;
+}
+
+.alert-danger {
+    background: linear-gradient(135deg, #dc3545, #c82333);
+    color: white;
+}
+
+@keyframes slideInRight {
+    from {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
 /* Animaciones y efectos */
 @keyframes fadeInUp {
     from {
@@ -544,7 +614,7 @@ body {
         align-items: center;
     }
     
-    .btn-hero-primary, .btn-hero-secondary {
+    .btn-hero-primary, .btn-hero-secondary, .btn-hero-register {
         width: 100%;
         text-align: center;
         justify-content: center;
@@ -557,6 +627,12 @@ body {
     .porque-nace-section {
         padding: 2rem;
         margin: 30px 0;
+    }
+
+    .alert-container {
+        left: 20px;
+        right: 20px;
+        max-width: none;
     }
 }
 
@@ -571,6 +647,20 @@ body {
     
     .card-custom .card-body {
         padding: 1.5rem;
+    }
+
+    .navbar-brand {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .logo-container {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .brand-text {
+        align-items: center;
     }
 }
 
@@ -595,7 +685,23 @@ html {
 /* Estados de enfoque para accesibilidad */
 .btn-sena:focus,
 .btn-hero-primary:focus,
-.btn-hero-secondary:focus {
+.btn-hero-secondary:focus,
+.btn-hero-register:focus {
     outline: 3px solid rgba(255,255,255,0.5);
     outline-offset: 2px;
+}
+
+/* Loading spinner */
+.loading-spinner {
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    border: 3px solid rgba(255,255,255,.3);
+    border-radius: 50%;
+    border-top-color: #fff;
+    animation: spin 1s ease-in-out infinite;
+}
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
 }
